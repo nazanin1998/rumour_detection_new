@@ -1,0 +1,11 @@
+dataset/pheme_csv/
+dataset/twitterhi/
+.idea/
+folder/
+__pycache__/
+vocab.txt
+dataset/
+dataset/.DS_Store
+dataset/pheme_preprocess/
+dataset/pheme/
+dataset/twitter/
