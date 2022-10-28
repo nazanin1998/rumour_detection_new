@@ -9,3 +9,8 @@ dataset/.DS_Store
 dataset/pheme_preprocess/
 dataset/pheme/
 dataset/twitter/
+/lib/training_modules/bert/aclImdb_v1.tar.gz
+/lib/training_modules/bert/aclImdb/
+/bazel.rb
+/text/
+/text/
