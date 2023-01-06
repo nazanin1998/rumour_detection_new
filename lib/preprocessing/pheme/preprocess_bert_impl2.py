@@ -1,3 +1,5 @@
+import ast
+
 import numpy
 
 from lib.preprocessing.pheme.bert_embedding.bert_embedding_impl import BertEmbeddingImpl
@@ -14,9 +16,9 @@ from lib.read_datasets.pheme.file_dir_handler import FileDirHandler
 
 # //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
 
-class PreProcessImpl(PreProcess):
+class PreProcessBertImpl2(PreProcess):
     def __init__(self, df=None, ):
-        print("\n<< PHASE-2 <==> PREPROCESS >>")
+        print("\n<< PHASE-2 <==> BERT PREPROCESS Impl2 >>")
         self.__df = df
         self.__current_index = 0
         self.__expander = None
@@ -80,34 +82,27 @@ class PreProcessImpl(PreProcess):
 
         self.__expanded_text = self.__expander.expand_contractions(text=text)
 
-        self.__sent_list = self.__tokenizer.text_to_sentence_list(text=self.__expanded_text)
-
-        self.__marked_text = self.__tokenizer.convert_sentences_list_to_masked_text(sentences=self.__sent_list)
-
-        self.__text_without_username = self.__remover.remove_usernames(text=self.__marked_text)
+        self.__text_without_username = self.__remover.remove_usernames(text=self.__expanded_text)
         self.__text_without_links, links = self.__remover.remove_links(text=self.__text_without_username)
         self.__text_without_emails, emails = self.__remover.remove_emails(text=self.__text_without_links)
 
-        self.__tokens = self.__tokenizer.sentence_to_tokens(sentence=self.__text_without_emails)
+        # self.__sent_list = self.__tokenizer.text_to_sentence_list(text=self.__text_without_emails)
 
-        # self.__words_roots = self.__lemma_maker.find_batch_words_root(tokens=self.__tokens)
+        # self.__marked_text = self.__tokenizer.convert_sentences_list_to_masked_text(sentences=self.__sent_list)
+        #
+        # self.__tokens = self.__tokenizer.sentence_to_tokens(sentence=self.__text_without_emails)
+        #
+        # # self.__words_roots = self.__lemma_maker.find_batch_words_root(tokens=self.__tokens)
+        #
+        # self.__tokens_without_sw = self.__remover.remove_stop_words(tokens=self.__tokens)
+        # self.__tokens_without_sc = self.__remover.remove_special_characters(tokens=self.__tokens_without_sw)
+        #
+        # self.__ids = self.__tokenizer.get_ids_from_tokens(tokens=self.__tokens_without_sc)
 
-        self.__tokens_without_sw = self.__remover.remove_stop_words(tokens=self.__tokens)
-        self.__tokens_without_sc = self.__remover.remove_special_characters(tokens=self.__tokens_without_sw)
-
-        self.__ids = self.__tokenizer.get_ids_from_tokens(tokens=self.__tokens_without_sc)
-
-        self.print_summery()
-        if self.__ids is None or self.__ids is numpy.NaN:
-            return None
-        return self.__ids
-        # self.__sentence = self.tokens_to_sentence(tokens=self.__tokens_without_sc, links=links, emails=emails)
-        # self.__sentence = self.__sentence.lower()
-        # self.embed = self.__embedding_maker.bert_embed(self.__sentence)
         # self.print_summery()
-        # if self.embed is None:
-        #     return numpy.NaN
-        # return self.embed
+        if self.__text_without_emails is None or self.__text_without_emails is numpy.NaN:  # self.__ids is None or self.__ids is numpy.NaN:
+            return None
+        return self.__text_without_emails
 
     def read_preprocessed_csv_dataset(self):
         print("\tRead Preprocessed CSV Dataset ...", end=' ==> ')
@@ -175,5 +170,17 @@ class PreProcessImpl(PreProcess):
 
 
 def do_preprocess(dataframe):
-    pre_process = PreProcessImpl(df=dataframe)
-    return pre_process.get_preprocessed_dataframe()
+    pre_process = PreProcessBertImpl2(df=dataframe)
+    df = pre_process.get_preprocessed_dataframe()
+
+    # text_pre_arr = get_array_type_from_srt(df['text_pre'].to_numpy())
+    # user_description_pre_arr = get_array_type_from_srt(df['user.description_pre'].to_numpy())
+    # df['text_pre'] = text_pre_arr
+    # df['user.description_pre'] = user_description_pre_arr
+    return df
+
+
+def get_array_type_from_srt(sample_str):
+    arr = list([(item if item is None or item is numpy.NaN else ast.literal_eval(item)) for item in sample_str])
+
+    return arr

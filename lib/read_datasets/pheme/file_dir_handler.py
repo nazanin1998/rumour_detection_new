@@ -13,6 +13,25 @@ class FileDirHandler:
             return None
 
     @staticmethod
+    def is_dir_exists_in_parent_dir(parent_dir, directory):
+        try:
+            dirs = os.listdir(parent_dir)
+            for d in dirs:
+                if d == directory:
+                    return True
+            return False
+        except:
+            return False
+
+    @staticmethod
+    def is_dir_exists(directory):
+        try:
+            dirs = os.listdir(directory)
+            return True
+        except:
+            return False
+
+    @staticmethod
     def read_json_file(path):
         try:
             with open(path) as jsonFile:

@@ -11,13 +11,16 @@ from lib.training_modules.bilstm.bilstm import BiLstm
 
 class BiLstmImpl(BiLstm):
 
+    def __init__(self):
+        print('<< PHASE-3 <==> BiLSTM >>')
+
     def data_reshape(self,
                      df,
                      label_name='is_rumour',
                      col_name='text_pre',
                      test_size=0.2):
-        reshaped_df = PreProcessImpl().get_array_column_by_name(df=df,
-                                                                col_name=col_name)
+        reshaped_df = PreProcessImpl.get_array_column_by_name(df=df,
+                                                              col_name=col_name)
         labels = df[label_name]
         x_train, x_test, y_train, y_test = train_test_split(reshaped_df,
                                                             labels,
@@ -61,8 +64,9 @@ class BiLstmImpl(BiLstm):
                                                   x_train=x_train,
                                                   batch_size=batch_size,
                                                   epoch=epoch)
-        print(loss)
-        print(accuracy)
+        print('loss is: ' + str(loss))
+        print('accuracy is: ' + str(accuracy))
+        print('<< PHASE-3 <==> BiLSTM DONE >>')
 
     def get_bi_lstm_model(self,
                           mode,
@@ -84,13 +88,13 @@ class BiLstmImpl(BiLstm):
 
         return model
 
-    def train_model(self, model,
-                    x_train,
-                    y_train,
-                    batch_size,
-                    x_test,
-                    y_test,
-                    epoch=1):
+    def train_bi_lstm_model(self, model,
+                            x_train,
+                            y_train,
+                            batch_size,
+                            x_test,
+                            y_test,
+                            epoch=1):
         history = model.fit(x_train, y_train,
                             batch_size=batch_size,
                             epochs=epoch,
@@ -111,3 +115,9 @@ class BiLstmImpl(BiLstm):
 
     def compare_lstm_bi_lstm(self, n_time_steps=10):
         raise 'Unimplemented method'
+
+
+def do_bi_lstm(dataframe):
+    bi_lstm = BiLstmImpl()
+    x_train, x_test, y_train, y_test = bi_lstm.data_reshape(df=dataframe)
+    bi_lstm.run_bi_lstm(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, max_len=64, epoch=1)
