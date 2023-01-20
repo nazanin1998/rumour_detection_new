@@ -1,11 +1,11 @@
 # //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
 
 # from lib.read_datasets.pheme.df_manipulate import convert_df_to_tensor_ds
-import os
+# import os
 
-from lib.read_datasets.pheme.df_manipulate_string import convert_df_to_tensor_ds
+# from lib.read_datasets.pheme.df_manipulate_string import convert_df_to_tensor_ds
 from lib.read_datasets.pheme.read_pheme_ds import read_pheme_ds
-from lib.training_modules.bert.bert_runner import run_bert_process
+# from lib.training_modules.bert.bert_runner import run_bert_process
 from lib.training_modules.bert.preprocess.bert_preprocessing_impl import BertPreprocessingImpl
 from lib.training_modules.bert.train.bert_model_impl import BertModelImpl
 
@@ -17,7 +17,7 @@ r"""
 """
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 df = read_pheme_ds()
 

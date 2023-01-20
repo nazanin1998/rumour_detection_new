@@ -6,24 +6,24 @@ from lib.utils.log.logger import log_line, log_start_phase, log_end_phase, log_p
 
 
 def read_pheme_ds():
+    pheme_csv_dirs = FileDirHandler.read_directories(directory=constants.PHEME_CSV_DIR)
+    df = __read_ds(pheme_csv_dirs)
+    __log_df_statistics(df)
+
+    return df
+
+
+def __log_df_statistics(df):
     log_line()
     log_start_phase(1, 'READ DATA')
-
-    pheme_csv_dirs = FileDirHandler.read_directories(directory=constants.PHEME_CSV_DIR)
-
-    dataframe = None
-    if pheme_csv_dirs is None or not pheme_csv_dirs.__contains__(constants.PHEME_CSV_NAME):
-        readPhemeJsonDS = ReadPhemeJsonDataset()
-        readPhemeJsonDS.read_and_save_csv()
-        dataframe = readPhemeJsonDS.df
-    else:
-        readPhemeCSVDS = ReadPhemeCSVDataset()
-        readPhemeCSVDS.read_csv_dataset()
-        dataframe = readPhemeCSVDS.df
-
     log_phase_desc("Path (.csv) : " + constants.PHEME_CSV_PATH)
-    log_phase_desc("Shape (.csv) : " + str(dataframe.shape))
-
+    log_phase_desc("Shape (.csv) : " + str(df.shape))
     log_end_phase(1, 'READ DATA')
     log_line()
-    return dataframe
+
+
+def __read_ds(pheme_csv_dirs):
+    if pheme_csv_dirs is None or not pheme_csv_dirs.__contains__(constants.PHEME_CSV_NAME):
+        return ReadPhemeJsonDataset().read_and_save_csv()
+    else:
+        return ReadPhemeCSVDataset().read_csv_dataset()

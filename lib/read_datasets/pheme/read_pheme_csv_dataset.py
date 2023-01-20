@@ -12,3 +12,4 @@ class ReadPhemeCSVDataset:
         print("\tRead dataset (.csv) ...")
 
         self.df = FileDirHandler.read_csv_file(path=constants.PHEME_CSV_PATH)
+        return self.df

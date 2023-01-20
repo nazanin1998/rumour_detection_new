@@ -291,10 +291,10 @@ class BertPreprocessingImpl(BertPreprocessing):
         # preprocessed_result = tf.concat(preprocess_layers, axis=-1)
 
         preprocessor = tf.keras.Model(inputs, preprocessed_result)
-        tf.keras.utils.plot_model(preprocessor,
-                                  rankdir="LR",
-                                  # show_shapes=True,
-                                  to_file='preprocess_layers.png')
+        # tf.keras.utils.plot_model(preprocessor,
+        #                           rankdir="LR",
+        #                           show_shapes=True,
+        #                           to_file='preprocess_layers.png')
         return preprocessor
 
     def make_tensor_ds_of_preprocessed_data(

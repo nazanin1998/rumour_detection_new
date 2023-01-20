@@ -20,6 +20,7 @@ class ReadPhemeJsonDataset:
         self.events = self.__extract_events_from_json_dataset()
         self.__extract_csv_from_events()
         self.print_summery()
+        return self.df
 
     def print_summery(self):
         index = 0

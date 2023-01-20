@@ -12,7 +12,7 @@ import tensorflow_addons as tfa
 # from official.nlp import optimization
 import numpy as np
 import transformers
-from bert import optimization
+# from bert import optimization
 # from torch.backends.opt_einsum import strategy
 # from lib.training_modules.bert import optimization
 from keras.applications.densenet import layers
